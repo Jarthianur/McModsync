@@ -66,7 +66,7 @@ Function Compare-Mods ($LocalMods, $RemoteMods) {
     }
     $LocalMods.GetEnumerator() | ForEach-Object {
         if (-Not $RemoteMods.ContainsKey($_.Value.Name)) {
-            $_.Value.Action = "DEL"
+            $_.Value.Action = "DELETE"
             $sync += $_.Value
         }
     }
@@ -78,7 +78,7 @@ $form = New-Object Forms.Form
 $form.BackColor = "white"
 $form.StartPosition = "CenterScreen"
 $form.Width = 600
-$form.Text = "Minecraft Mod Sync"
+$form.Text = "McModsync"
 $form.AutoSize = $true
 $form.AutoScroll = $false
 $form.Icon = [Drawing.Icon]::ExtractAssociatedIcon("$PSHOME\powershell.exe")
@@ -197,7 +197,7 @@ $versionPanel.BorderStyle = [Forms.BorderStyle]::Fixed3D
 $versionLabel = New-Object Forms.Label
 $versionLabel.AutoSize = $true
 $versionLabel.Dock = [Forms.DockStyle]::Top
-$versionLabel.Text = 'Server Base Path / Modpack'
+$versionLabel.Text = 'URL / Modpack'
 $versionLabel.Padding = '4,8,0,2'
 
 $versionTlp = New-Object Forms.TableLayoutPanel
@@ -364,7 +364,7 @@ $syncBtn.Add_Click( {
                     if ($mod.Action -eq "ADD" -or $mod.Action -eq "UPDATE") {
                         Get-Remote-Mod -ServerBase "$serverBase" -LocalDir "$baseDir\mods" -Version $info[0] -Theme $info[1] -Mod $mod.Name
                     }
-                    elseif ($mod.Action -eq "DEL") {
+                    elseif ($mod.Action -eq "DELETE") {
                         $path = "$baseDir\mods\" + $mod.Name
                         Remove-Item -Path "$path"
                     }
